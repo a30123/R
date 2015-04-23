@@ -1,14 +1,14 @@
 # Author : A40021 KazeLo
 # vent.vac ??? tmal.source å°¾ç«¯??„è·³èµ·é?œè¯??†æ?event
 ptm <- proc.time() #ç´€??„ç?‹å?åŸ·è¡Œæ?‚é??
-current_path <- "D:/LED/WorkingSpace/TS1/TS1_data/CSV/32.vac_and_tmal.source/"
+current_path <- "E:/MovedFromD/CSV/TS1/VentVac_TMAl_2492runs/current/"
 current_list <- list.files(path=current_path , pattern="*current")
 
-setpoint_path <- "D:/LED/WorkingSpace/TS1/TS1_data/CSV/32.vac_and_tmal.source/"
+setpoint_path <- "E:/MovedFromD/CSV/TS1/VentVac_TMAl_2492runs/setpoint/"
 setpoint_list <- list.files(path=setpoint_path , pattern="*setpoint")
 
 
-deviation_path <- "D:/LED/WorkingSpace/TS1/TS1_data/CSV/32.vac_and_tmal.source/"
+deviation_path <- "E:/MovedFromD/CSV/TS1/VentVac_TMAl_2492runs/deviation/"
 deviation_list <- list.files(path=deviation_path , pattern="*deviation")
 
 dataset <- length(setpoint_list )
@@ -59,7 +59,7 @@ for (i in 1:dataset){ #import data
         event_tmal <- c(event_tmal,0)
     }
 }
-write.csv(event_tmal,"event_tmal_50?•ª.csv",row.names=F)
-write.csv(event_vac,"event_vac.csv",row.names=F)
+write.csv(event_tmal,"C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try_20150423_PYLo_VentVacTMAlsource_event/event_tmal_50.csv",row.names=F)
+write.csv(event_vac,"C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try_20150423_PYLo_VentVacTMAlsource_event/event_vac.csv",row.names=F)
 
 proc.time() - ptm
