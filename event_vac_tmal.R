@@ -43,7 +43,7 @@ for (i in 1:dataset){ #import data
         if(max(check_point)>(0.5*data_length)){ #å¦‚æ?œæ”¹è®Šç?„é?åœ¨è³‡æ?™æ?€å¾Œç??50%ç¯„å?å…§ï¼Œå?‡vac event =1          
             event_vac <- c(event_vac,1)
             
-            if(error_1 >1 & error_0<0.5){
+            if(error_1 >0.5 & error_0<0.25){
                 event_tmal <- c(event_tmal,1)
             }else{
                 event_tmal <- c(event_tmal,0)
@@ -59,7 +59,7 @@ for (i in 1:dataset){ #import data
         event_tmal <- c(event_tmal,0)
     }
 }
-write.csv(event_tmal,"C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try_20150423_PYLo_VentVacTMAlsource_event/event_tmal_50.csv",row.names=F)
-write.csv(event_vac,"C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try_20150423_PYLo_VentVacTMAlsource_event/event_vac.csv",row.names=F)
+write.csv(event_tmal,"C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try_20150423_PYLo_VentVacTMAlsource_event/event_tmal_50_pointfive_threshold.csv",row.names=F)
+write.csv(event_vac,"C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try_20150423_PYLo_VentVacTMAlsource_event/event_vac_pointfivethreshold.csv",row.names=F)
 
 proc.time() - ptm
