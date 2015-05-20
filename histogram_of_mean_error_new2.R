@@ -186,4 +186,4 @@ barplot(ttt,col=2:7)
 
 
 ba<-ggplot(mdfr,aes(x=variable,y=value,fill=category))
-ba+geom_bar(stat="identity")+scale_fill_manual(values=c('darkturquoise','darkgreen','darkorchid1','ivory4','firebrick1','gold2'))
+ba+geom_bar(stat="identity")+scale_fill_manual(values=c('darkturquoise','darkgreen','darkorchid1','ivory4','firebrick1','gold2'))+xlab("bins")+ylab("counts")
