@@ -172,7 +172,6 @@ c5<-hist5$count
 c6<-hist6$count
 
 ttt=rbind(c2,c4,c3,c1,c5,c6)
-#colnames(ttt)<-c("0~0.05","0.05~0.1","0.1~0.2","0.2~0.3","0.3~0.4","0.4~0.5","0.5~1","1~2","2~3",">3")
 dfr<-data.frame(ttt)
 dfr$category<-c("oscillating","steep descend","steep ascend","flat","slow ascend","slow descend")
 colnames(dfr)<-c("0~0.05","0.05~0.1","0.1~0.2","0.2~0.3","0.3~0.4","0.4~0.5","0.5~1","1~2","2~3",">3","category")
@@ -186,7 +185,5 @@ p<-ggplot(mdfr,aes(variable,value,fill=category))+geom_bar(position="fill")
 barplot(ttt,col=2:7)
 
 
-#mdfr$variable<-(c("0.0~0.05","0.05~0.1","0.1~0.2","0.2~0.3","0.3~0.4","0.4~0.5","0.5~1","1~2","2~3",">3"))
 ba<-ggplot(mdfr,aes(x=variable,y=value,fill=category))
-ba+geom_bar(stat="identity")+scale_fill_manual(values=c('darkturquoise','darkseagreen','gold2','firebrick1','darkorchid1','ivory4'))
 ba+geom_bar(stat="identity")+scale_fill_manual(values=c('darkturquoise','darkgreen','darkorchid1','ivory4','firebrick1','gold2'))
