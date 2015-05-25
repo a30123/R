@@ -28,9 +28,10 @@ library(dplyr)
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
 #file_path='C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try_20150521_google_Vis/data/run1767_2040-setpoint.csv'
-#file_path='C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try_20150521_google_Vis/data/run1772_RE-HEMT.AlN_SLs Buffer_Si_028 uGaN 01 for 950 um_E140326D_2045-setpoint.csv'
-file_path= 'C:/Users/Mary/Music/Documents/R/New for Event Mining/Try_20150522_googleVis/setpoint/run1772_RE-HEMT.AlN_SLs Buffer_Si_028 uGaN 01 for 950 um_E140326D_2045-setpoint.csv'
-file_path2='C:/Users/Mary/Music/Documents/R/New for Event Mining/Try_20150522_googleVis/current/run1772_RE-HEMT.AlN_SLs Buffer_Si_028 uGaN 01 for 950 um_E140326D_2045-current.csv'
+file_path='C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try_20150521_google_Vis/data/run1772_RE-HEMT.AlN_SLs Buffer_Si_028 uGaN 01 for 950 um_E140326D_2045-setpoint.csv'
+file_path2='C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try_20150521_google_Vis/data/run1772_RE-HEMT.AlN_SLs Buffer_Si_028 uGaN 01 for 950 um_E140326D_2045-current.csv'
+# file_path= 'C:/Users/Mary/Music/Documents/R/New for Event Mining/Try_20150522_googleVis/setpoint/run1772_RE-HEMT.AlN_SLs Buffer_Si_028 uGaN 01 for 950 um_E140326D_2045-setpoint.csv'
+# file_path2='C:/Users/Mary/Music/Documents/R/New for Event Mining/Try_20150522_googleVis/current/run1772_RE-HEMT.AlN_SLs Buffer_Si_028 uGaN 01 for 950 um_E140326D_2045-current.csv'
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
@@ -54,6 +55,8 @@ plot(AnnoTimeLine)
 
 templist$new<-rep("setpoint",nrow(templist))
 templist2$new<-rep("current",nrow(templist2))
+templist2$TMAl_1<-NULL
+
 
 templist3<-rbind(templist,templist2)
 AnnoTimeLine<-gvisAnnotatedTimeLine(templist3,datevar="DataTime",numvar="TMAl_1.source",idvar="new",date.format="%Y/%m/%d %H:%M:%S",options=list(displayAnnotations=TRUE,width="600px",height="350px"))
