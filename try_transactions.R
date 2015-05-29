@@ -17,7 +17,7 @@
 #########################################################################################################
 require(gdata)
 #require(ggplot2)
-library(RODBC)
+#library(RODBC)
 library(arules)
 library(arulesViz)
 library(RColorBrewer)
@@ -29,8 +29,8 @@ library(RColorBrewer)
 #########################################################################################################
 #######################################   INITIALIZING        ###########################################
 #########################################################################################################
-file_path='C:/Users/A30123.ITRI/Desktop/Event Mining/Tools/Purely Combine Events/output.csv'
-
+#file_path='C:/Users/A30123.ITRI/Desktop/Event Mining/Tools/Purely Combine Events/output.csv'
+file_path='C:/Users/Mary/Music/Documents/R/New for Event Mining/Try_20150529_trytransactions/output.csv'
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
