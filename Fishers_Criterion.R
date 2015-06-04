@@ -22,11 +22,14 @@ feature = rnorm(100)
 Fisher_cri(y,feature)
 
 ########################
+path1<-"C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try_20150604_Fishers_criterion/Faulty"
+path2<-"C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try_20150604_Fishers_criterion/Normal"
 
+filename1<-list.files(path=path1)[1]
+filename2<-list.files(path=path2)[1]
 
-dat_y0<-read.csv("C:/Users/A30123.ITRI/Desktop/Tasks/Variable Selection/normal and faulty/20150603/Non bake runs/faulty_nonbake_features_20150603.csv")
-dat_y1<-read.csv("C:/Users/A30123.ITRI/Desktop/Tasks/Variable Selection/normal and faulty/20150603/Non bake runs/normal_nonbake_features_20150603.csv")
-
+dat_y0<-read.csv(paste(path1,"/",filename1,sep=""))
+dat_y1<-read.csv(paste(path2,"/",filename2,sep=""))
 #colnames(dat_y0)==colnames(dat_y1)
 
 
@@ -44,4 +47,4 @@ for( i in 1: dim(dat_y0)[2]){
 output = data.frame( feature=colnames(dat_y0) ,Fisher_cri=fc )
 
 
-write.csv(output,"C:/Users/A30123.ITRI/Desktop/Tasks/Variable Selection/normal and faulty/20150603/Non bake runs/Fisher's criterion result.csv",row.names = F)
+write.csv(output,"C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try_20150604_Fishers_criterion/Fisher's criterion result.csv",row.names = F)
