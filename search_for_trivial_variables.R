@@ -1,7 +1,7 @@
 ### created date:6/04/2015
 ### last modified date:
 ### author:A30123
-### description:Takes indices from file in Event folder and filters data in file of Features folder with the indices
+### description:find trivial features
 
 
 #########################################################################################################
@@ -34,13 +34,12 @@ output_path_filename<-"C:/Users/A30123.ITRI/Documents/R scripts/New for event mi
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
 
+
 filename1<-list.files(path=path1)[1]
 filename2<-list.files(path=path2)[1]
 
 features<-read.csv(paste(path1,"/",filename1,sep=""))
-#events<-read.csv(paste(path2,"/",filename2,sep=""),header=F)
-#events<-read.csv(paste(path2,"/",filename2,sep=""))
-
+events<-read.csv(paste(path2,"/",filename2,sep=""))
 
 features=features[events==1,]
 write.csv(features,output_path_filename,row.names = F)
