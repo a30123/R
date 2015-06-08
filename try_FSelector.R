@@ -48,3 +48,11 @@ weights<-chi.squared(Class~.,HouseVotes84)
 print(weights)
 subset<-cutoff.k(weights, 5)
 f<-as.simple.formula(subset,"Class")
+
+
+#######################################################################
+#my_data_path<-"C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try_20150607_FSelector/cfs/InputVSTarget2.csv"
+library(FSelector)
+my_data_path<-"C:/Users/Mary/Music/Documents/R/New for Event Mining/Try_20150608_FSelector/cfs/InputVSTarget2.csv"
+my_data<-read.csv(my_data_path)
+weights<-information.gain(Target~., my_data)
