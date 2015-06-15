@@ -38,6 +38,7 @@ filename1<-list.files(path=path1)[1]
 filename2<-list.files(path=path2)[1]
 
 features<-read.csv(paste(path1,"/",filename1,sep=""))
+#features<-read.csv(paste(path1,"/",filename1,sep=""),header=F)
 events<-read.csv(paste(path2,"/",filename2,sep=""),header=F)
 #events<-read.csv(paste(path2,"/",filename2,sep=""))
 
