@@ -1,7 +1,7 @@
-### created date:
+### created date: July 2 2015
 ### last modified date:
 ### author:A30123
-### description:
+### description:PCA plus t squared q
 
 
 #########################################################################################################
@@ -28,6 +28,14 @@ my_data_path<-"C:/Users/A30123.ITRI/Documents/R scripts/New for event mining/Try
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
-my_data<-read.csv(my_data_path)
+all_data<-read.csv(my_data_path)
+my_data<-all_data[1:200,]
 
-standardized_my_data
+#standardize each column
+standardized_my_data<-scale(my_data,center=TRUE,scale=TRUE)
+
+coco<-matrix(standardized_my_data,length(my_data[,1]))
+#coco<-as.matrix(standardized_my_data)
+
+t(coco)%*%coco
+
