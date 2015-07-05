@@ -37,10 +37,10 @@ physmax<-500
 #########################################################################################################
 ########################################   MAIN PROGRAM        ##########################################
 #########################################################################################################
-#start timer
+##start timer
 ptm<-proc.time()
 
-#get list of files in current folder
+##get list of files in current folder
 filenames<-list.files(path=current_folder_path)
 filenames<-filenames[grepl("current.csv", filenames[])] 
 
