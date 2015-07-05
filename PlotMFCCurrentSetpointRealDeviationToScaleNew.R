@@ -28,7 +28,7 @@ require(gdata)
 setpoint_folder_path="E:./././././././MovedFromD/CSV/TS1/MFCsource_2492runs/setpoint/"
 current_folder_path="E:./././././././MovedFromD/CSV/TS1/MFCsource_2492runs/current/"
 deviation_folder_path="E:./././././MovedFromD/CSV/TS1/MFCsource_2492runs/deviation/"
-output_folder_path="C:././././R scripts/New for event mining/Try_20150705_TS1_TMAl_source_real_deviation/Output/"
+output_folder_path="C:././././R scripts/New for event mining/Try_20150705_TS1_TMAl_source_real_deviation/Output_New/"
 sensor_variable="TMAl_1.source"
 upper_plot_limit=700
 lower_plot_limit=-10
@@ -46,6 +46,7 @@ no_of_runs<-length(filenames)
 
 i<-0
 j<-1
+
 previousremainlist<-c()
 previousremainlist2<-c()
 previousremainlist3<-c()
@@ -58,7 +59,12 @@ prevlistx2<-c()
 prevlisty2<-c()
 prevlistx3<-c()
 prevlisty3<-c()
-
+prevBakelistleft<-c()
+prevBakelistlright<-c()
+prevHClBakelistleft<-c()
+prevHClBakelistright<-c()
+prevBufferlistleft<-c()
+prevBufferlistright<-c()
 
 while(i<no_of_runs){
   listx<-prevlistx
@@ -75,8 +81,13 @@ while(i<no_of_runs){
   longlist4<-previousremainlist4
   l1<-length(previousremainlist)
   
-  #groundtruth<-c(previousground,rep(-10,(2*plotlength-l1)))
   groundtruth2<-previousground2
+  Bakelistleft<-prevBakelistleft
+  Bakelistright<-prevBakelistright
+  HClBakelistleft<-prevHClBakelistleft
+  HClBakelistright<-prevHClBakelistright
+  Bufferlistleft<-prevBufferlistleft
+  Bufferlistright<-prevBufferlistright
   
   starting<-i
   while (l1 <=plotlength && i<no_of_runs){
@@ -99,48 +110,65 @@ while(i<no_of_runs){
     
     l2<-l1
     l1<-length(longlist)
-   # groundtruth[l1]<-600
+  
     groundtruth2<-c(groundtruth2,l1)
 
     
     ##########
     if(grepl("HCl_Bake_HCl_Bake", filenames[i])){
-      listx<-c(listx,l2,l2,l1,l1)
-      listy<-c(listy,lower_plot_limit,upper_plot_limit,upper_plot_limit,lower_plot_limit)
-      listx3<-c(listx3,l2,l2,l1,l1)
-      listy3<-c(listy3,rep(lower_plot_limit,4))
-      listx2<-c(listx2,l2,l2,l1,l1)
-      listy2<-c(listy2,rep(lower_plot_limit,4))
+      HClBakelistleft<-c(HClBakelistleft,l2)
+      HClBakelistright<-c(HClBakelistright,l1)
     }else{
       if(grepl("Buffer", filenames[i])){
-        listx2<-c(listx2,l2,l2,l1,l1)
-        listy2<-c(listy2,lower_plot_limit,upper_plot_limit,upper_plot_limit,lower_plot_limit)
-        listx3<-c(listx3,l2,l2,l1,l1)
-        listy3<-c(listy3,rep(lower_plot_limit,4))
-        listx<-c(listx,l2,l2,l1,l1)
-        listy<-c(listy,rep(lower_plot_limit,4))
+        Bufferlistleft<-c(Bufferlistleft,l2)
+        Bufferlistright<-c(Bufferlistright,l1)
       }else{
         if(grepl("Bake", filenames[i])){
-          listx3<-c(listx3,l2,l2,l1,l1)
-          listy3<-c(listy3,lower_plot_limit,upper_plot_limit,upper_plot_limit,lower_plot_limit)
-          listx2<-c(listx2,l2,l2,l1,l1)
-          listy2<-c(listy2,rep(lower_plot_limit,4))
-          listx<-c(listx,l2,l2,l1,l1)
-          listy<-c(listy,rep(lower_plot_limit,4))
-        }else{
-          listx3<-c(listx3,l2,l2,l1,l1)
-          listy3<-c(listy3,rep(lower_plot_limit,4))
-          listx2<-c(listx2,l2,l2,l1,l1)
-          listy2<-c(listy2,rep(lower_plot_limit,4))
-          listx<-c(listx,l2,l2,l1,l1)
-          listy<-c(listy,rep(lower_plot_limit,4))
+          Bakelistleft<-c(Bakelistleft,l2)
+          Bakelistright<-c(Bakelistright,l1)
         }
       }
     }
+    
     ######
-    
-    
   }
+
+  if (sum(groundtruth2>plotlength)!=0){
+    previousground2<-groundtruth2[groundtruth2>plotlength]-plotlength}
+  else{
+    previousground2<-c()
+  }
+
+  if (sum(Bakelistright>plotlength)!=0){
+    prevBakelistleft<-c(0)
+    prevBakelistright<-(Bakelistright[Bakelistright>plotlength]-plotlength)
+    Bakelistright[length(Bakelistright)]<-plotlength}
+  else{
+    prevBakelistleft<-c()
+    prevBakelistright<-c()
+  }
+
+
+  if (sum(HClBakelistright>plotlength)!=0){
+    prevHClBakelistleft<-c(0)
+    prevHClBakelistright<-(HClBakelistright[HClBakelistright>plotlength]-plotlength)
+    HClBakelistright[length(HClBakelistright)]<-plotlength}
+  else{
+    prevHClBakelistleft<-c()
+    prevHClBakelistright<-c()
+  }
+
+
+  if (sum(Bufferlistright>plotlength)!=0){
+    prevBufferlistleft<-c(0)
+    prevBufferlistright<-(Bufferlistright[Bufferlistright>plotlength]-plotlength)
+    Bufferlistright[length(Bufferlistright)]<-plotlength}
+  else{
+    prevBufferlistleft<-c()
+    prevBufferlistright<-c()
+  }
+
+
   ending<-i
   dirname1<-output_folder_path
   dirname2<-toString(j)
@@ -155,15 +183,27 @@ while(i<no_of_runs){
   par(mar=c(5,5,5,5))
   plot(longlist2[1:plotlength],cex.lab=2,xlab="runs",ylab="sccm",type="l",lwd=5,col="red",ylim=c(lower_plot_limit,upper_plot_limit))
   title(main="Comparison of error and error reconstructed from deviation")
-  polygon(c(listx[1:(length(listx)-2)],plotlength,plotlength),listy,col="pink")  
-  polygon(c(listx2[1:(length(listx2)-2)],plotlength,plotlength),listy2,col="skyblue")  
-  polygon(c(listx3[1:(length(listx3)-2)],plotlength,plotlength),listy3,col="mistyrose") 
-  
-  
+#   polygon(c(listx[1:(length(listx)-2)],plotlength,plotlength),listy,col="pink")  
+#   polygon(c(listx2[1:(length(listx2)-2)],plotlength,plotlength),listy2,col="skyblue")  
+#   polygon(c(listx3[1:(length(listx3)-2)],plotlength,plotlength),listy3,col="mistyrose") 
+#   
+  if(length(Bakelistleft)>1){
+    rect(Bakelistleft,rep(lower_plot_limit,length(Bakelistleft)),Bakelistright,rep(upper_plot_limit,length(Bakelistleft)),col="mistyrose")
+  }
+
+  if(length(HClBakelistleft)>1){
+    rect(HClBakelistleft,rep(lower_plot_limit,length(HClBakelistleft)),HClBakelistright,rep(upper_plot_limit,length(HClBakelistleft)),col="pink")
+  }
+
+  if(length(Bufferlistleft)>1){
+    rect(Bufferlistleft,rep(lower_plot_limit,length(Bufferlistleft)),Bufferlistright,rep(upper_plot_limit,length(Bufferlistleft)),col="skyblue")
+  }
+
   lines(longlist2[1:plotlength],type="l",lwd=6,col="red")#setpoint
   points(longlist[1:plotlength],pch=20,col="forestgreen")#current
   abline(v=groundtruth2[groundtruth2<=plotlength],col="gray60")
-  
+
+
   
   par(new=T)
   plot(longlist3[1:plotlength],axes=FALSE,xlab="",ylab="",type="l",lwd=3,col="blue",ylim=c(0,100))
@@ -179,11 +219,7 @@ while(i<no_of_runs){
   previousremainlist3<-longlist3[(plotlength+1):length(longlist)]
   previousremainlist4<-longlist4[(plotlength+1):length(longlist)]
  
-  if (sum(groundtruth2>plotlength)!=0){
-    previousground2<-groundtruth2[groundtruth2>plotlength]-plotlength}
-  else{
-    previousground2<-c()
-  }
+
 
   prevlistx<-c(0,0,(listx[(length(listx))]-(plotlength)),(listx[length(listx)]-(plotlength)))
   prevlisty<-c(-10,rep(listy[(length(listx)-1)],2),-10)
