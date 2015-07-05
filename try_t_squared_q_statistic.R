@@ -58,3 +58,9 @@ pca_result$scores
 ############## PCA on non-standardized data is exactly the same
 pca_result2<-princomp(standardized_my_data,scores=TRUE,cor=TRUE)
 plot(pca_result2)
+
+
+############## calculate T squared
+
+
+############# calculate Q statistics
