@@ -38,7 +38,7 @@ physmax<-500
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
-
+ptm<-proc.time()
 filenames<-list.files(path=current_folder_path)
 filenames<-filenames[grepl("current.csv", filenames[])] 
 no_of_runs<-length(filenames)
@@ -187,15 +187,15 @@ while(i<no_of_runs){
 #   polygon(c(listx2[1:(length(listx2)-2)],plotlength,plotlength),listy2,col="skyblue")  
 #   polygon(c(listx3[1:(length(listx3)-2)],plotlength,plotlength),listy3,col="mistyrose") 
 #   
-  if(length(Bakelistleft)>1){
+  if(length(Bakelistleft)>0){
     rect(Bakelistleft,rep(lower_plot_limit,length(Bakelistleft)),Bakelistright,rep(upper_plot_limit,length(Bakelistleft)),col="mistyrose")
   }
 
-  if(length(HClBakelistleft)>1){
+  if(length(HClBakelistleft)>0){
     rect(HClBakelistleft,rep(lower_plot_limit,length(HClBakelistleft)),HClBakelistright,rep(upper_plot_limit,length(HClBakelistleft)),col="pink")
   }
 
-  if(length(Bufferlistleft)>1){
+  if(length(Bufferlistleft)>0){
     rect(Bufferlistleft,rep(lower_plot_limit,length(Bufferlistleft)),Bufferlistright,rep(upper_plot_limit,length(Bufferlistleft)),col="skyblue")
   }
 
@@ -232,3 +232,4 @@ while(i<no_of_runs){
   
   j<-j+1
 }
+proc.time()-ptm
