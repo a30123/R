@@ -101,7 +101,7 @@ while(i<no_of_runs){
     #indices for end of runs
     groundtruth2<-c(groundtruth2,l1)
     
-    ########## collect starting and ending indices for bake, HCl-bake and buffer runs
+    ######### collect starting and ending indices for bake, HCl-bake and buffer runs
     if(grepl("HCl_Bake_HCl_Bake", filenames[i])){
       HClBakelistleft<-c(HClBakelistleft,l2)
       HClBakelistright<-c(HClBakelistright,l1)
@@ -116,7 +116,7 @@ while(i<no_of_runs){
         }
       }
     }
-    ##########
+    
   }
 
   if (sum(groundtruth2>plotlength)!=0){
