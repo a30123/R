@@ -1,4 +1,4 @@
-### created date:4/15/2015
+### created date:7/5/2015
 ### last modified date:7/5/2015
 ### author:A30123
 ### description:Plot Current, Setpoint, |Current-Setpoint|, deviation*physmax/100 values of TMAl_1.source to scale
@@ -34,15 +34,17 @@ upper_plot_limit=700
 lower_plot_limit=-10
 plotlength<-75000  
 physmax<-500
-  
 #########################################################################################################
 #######################################   MAIN PROGRAM        ###########################################
 #########################################################################################################
+#start timer
 ptm<-proc.time()
+
+#get list of files in current folder
 filenames<-list.files(path=current_folder_path)
 filenames<-filenames[grepl("current.csv", filenames[])] 
-no_of_runs<-length(filenames)
 
+no_of_runs<-length(filenames)
 
 i<-0
 j<-1
@@ -53,12 +55,6 @@ previousremainlist3<-c()
 previousremainlist4<-c()
 previousground<-c()
 previousground2<-c()
-prevlistx<-c()
-prevlisty<-c()
-prevlistx2<-c()
-prevlisty2<-c()
-prevlistx3<-c()
-prevlisty3<-c()
 prevBakelistleft<-c()
 prevBakelistright<-c()
 prevHClBakelistleft<-c()
@@ -66,15 +62,7 @@ prevHClBakelistright<-c()
 prevBufferlistleft<-c()
 prevBufferlistright<-c()
 
-while(i<no_of_runs){
-  listx<-prevlistx
-  listy<-prevlisty
-  listx2<-prevlistx2
-  listy2<-prevlisty2
-  listx3<-prevlistx3
-  listy3<-prevlisty3
-  
-  
+while(i<no_of_runs){  
   longlist<-previousremainlist
   longlist2<-previousremainlist2
   longlist3<-previousremainlist3
@@ -107,14 +95,13 @@ while(i<no_of_runs){
     templist4<-unlist(read.csv(single_deviation_file_path)[sensor_variable])
     longlist4<-c(longlist4,(abs(templist4)*(physmax/100)))
     
-    
     l2<-l1
     l1<-length(longlist)
-  
-    groundtruth2<-c(groundtruth2,l1)
-
     
-    ##########
+    #indices for end of runs
+    groundtruth2<-c(groundtruth2,l1)
+    
+    ########## collect starting and ending indices for bake, HCl-bake and buffer runs
     if(grepl("HCl_Bake_HCl_Bake", filenames[i])){
       HClBakelistleft<-c(HClBakelistleft,l2)
       HClBakelistright<-c(HClBakelistright,l1)
@@ -129,8 +116,7 @@ while(i<no_of_runs){
         }
       }
     }
-    
-    ######
+    ##########
   }
 
   if (sum(groundtruth2>plotlength)!=0){
@@ -148,7 +134,6 @@ while(i<no_of_runs){
     prevBakelistright<-c()
   }
 
-
   if (sum(HClBakelistright>plotlength)!=0){
     prevHClBakelistleft<-c(0)
     prevHClBakelistright<-(HClBakelistright[HClBakelistright>plotlength]-plotlength)
@@ -157,7 +142,6 @@ while(i<no_of_runs){
     prevHClBakelistleft<-c()
     prevHClBakelistright<-c()
   }
-
 
   if (sum(Bufferlistright>plotlength)!=0){
     prevBufferlistleft<-c(0)
@@ -168,7 +152,7 @@ while(i<no_of_runs){
     prevBufferlistright<-c()
   }
 
-
+  #png filename
   ending<-i
   dirname1<-output_folder_path
   dirname2<-toString(j)
@@ -180,34 +164,32 @@ while(i<no_of_runs){
   dirname=paste(dirname1,dirname2,dirname3,dirname4,dirname5,dirname6,dirname7,sep="")
   jpeg(dirname,height=800,width=2000)
   
+  #first part of plot (current,setpoint values, buffer, bake, HCl-bake runs)
   par(mar=c(5,5,5,5))
   plot(longlist2[1:plotlength],cex.lab=2,xlab="runs",ylab="sccm",type="l",lwd=5,col="red",ylim=c(lower_plot_limit,upper_plot_limit))
   title(main="Comparison of error and error reconstructed from deviation")
-#   polygon(c(listx[1:(length(listx)-2)],plotlength,plotlength),listy,col="pink")  
-#   polygon(c(listx2[1:(length(listx2)-2)],plotlength,plotlength),listy2,col="skyblue")  
-#   polygon(c(listx3[1:(length(listx3)-2)],plotlength,plotlength),listy3,col="mistyrose") 
-#   
+ 
   if(length(Bakelistleft)>0){
-    rect(Bakelistleft,rep(lower_plot_limit,length(Bakelistleft)),Bakelistright,rep(upper_plot_limit,length(Bakelistleft)),col="mistyrose")
+    rect(Bakelistleft,rep(lower_plot_limit,length(Bakelistleft)),Bakelistright,rep(upper_plot_limit,length(Bakelistleft)),col="mistyrose",border=NA)
   }
 
   if(length(HClBakelistleft)>0){
-    rect(HClBakelistleft,rep(lower_plot_limit,length(HClBakelistleft)),HClBakelistright,rep(upper_plot_limit,length(HClBakelistleft)),col="pink")
+    rect(HClBakelistleft,rep(lower_plot_limit,length(HClBakelistleft)),HClBakelistright,rep(upper_plot_limit,length(HClBakelistleft)),col="pink",border=NA)
   }
 
   if(length(Bufferlistleft)>0){
-    rect(Bufferlistleft,rep(lower_plot_limit,length(Bufferlistleft)),Bufferlistright,rep(upper_plot_limit,length(Bufferlistleft)),col="skyblue")
+    rect(Bufferlistleft,rep(lower_plot_limit,length(Bufferlistleft)),Bufferlistright,rep(upper_plot_limit,length(Bufferlistleft)),col="skyblue",border=NA)
   }
 
   lines(longlist2[1:plotlength],type="l",lwd=6,col="red")#setpoint
   points(longlist[1:plotlength],pch=20,col="forestgreen")#current
-  abline(v=groundtruth2[groundtruth2<=plotlength],col="gray60")
+  abline(v=groundtruth2[groundtruth2<=plotlength],col="gray60")#run breakpoints
 
 
-  
+  #second part of plot
   par(new=T)
-  plot(longlist3[1:plotlength],axes=FALSE,xlab="",ylab="",type="l",lwd=3,col="blue",ylim=c(0,100))
-  lines(longlist4[1:plotlength],type="l",lwd=2,col="brown1")
+  plot(longlist3[1:plotlength],axes=FALSE,xlab="",ylab="",type="l",lwd=3,col="blue",ylim=c(0,100))#error
+  lines(longlist4[1:plotlength],type="l",lwd=2,col="brown1")# scaled deviation
   axis(side=4)
   mtext(side=4,line=3,"Error scale (sccm)",cex=2)
   legend('top', c('current value (left axis)','setpoint value (left axis)','error (right axis)','deviation*physmax/100 (right axis)'),lty=1, col=c('forestgreen','red','blue','brown1'),bty='n',lwd=2,cex=2)
@@ -217,18 +199,7 @@ while(i<no_of_runs){
   previousremainlist<-longlist[(plotlength+1):length(longlist)]
   previousremainlist2<-longlist2[(plotlength+1):length(longlist)]
   previousremainlist3<-longlist3[(plotlength+1):length(longlist)]
-  previousremainlist4<-longlist4[(plotlength+1):length(longlist)]
- 
-
-
-  prevlistx<-c(0,0,(listx[(length(listx))]-(plotlength)),(listx[length(listx)]-(plotlength)))
-  prevlisty<-c(-10,rep(listy[(length(listx)-1)],2),-10)
-  prevlistx2<-c(0,0,(listx2[(length(listx2))]-(plotlength)),(listx2[length(listx2)]-(plotlength)))
-  prevlisty2<-c(-10,rep(listy2[(length(listx2)-1)],2),-10)
-  prevlistx3<-c(0,0,(listx3[(length(listx3))]-(plotlength)),(listx3[length(listx3)]-(plotlength)))
-  prevlisty3<-c(-10,rep(listy3[(length(listx3)-1)],2),-10)
-  
-  
+  previousremainlist4<-longlist4[(plotlength+1):length(longlist)]  
   
   j<-j+1
 }
