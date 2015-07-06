@@ -34,7 +34,7 @@ all_data<-read.csv(my_data_path)
 #extract only first 200 entries
 my_data<-all_data[1:200,]
 my_data_testing<-all_data[201:length(all_data[,1]),]
- 
+
 #mean and standard deviation of normal data
 means<-colMeans(my_data)
 stds<-apply(my_data,2,sd)
@@ -52,6 +52,8 @@ coco<-matrix(standardized_my_data,length(my_data[,1]))
 cov<-t(coco)%*%coco
 
 eigs<-eigen(cov,symmetric=TRUE,only.values=FALSE)
+#eigs$vectors
+#eigs$values
 
 
 ############### PCA
