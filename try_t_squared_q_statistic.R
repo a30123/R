@@ -33,11 +33,18 @@ all_data<-read.csv(my_data_path)
 
 #extract only first 200 entries
 my_data<-all_data[1:200,]
+my_data_testing<-all_data[201:length(all_data[,1]),]
+ 
+#mean and standard deviation of normal data
+means<-colMeans(my_data)
+stds<-apply(my_data,2,sd)
 
 my_data2<-all_data[1:200,1:10]
 pairs(my_data2)
 #standardize each column
 standardized_my_data<-scale(my_data,center=TRUE,scale=TRUE)
+standardized_my_data_testing<-scale(my_data_testing,center=means,scale=stds)
+
 
 coco<-matrix(standardized_my_data,length(my_data[,1]))
 #coco<-as.matrix(standardized_my_data)
