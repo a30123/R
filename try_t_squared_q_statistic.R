@@ -68,8 +68,12 @@ pca_result$scores
 pca_result2<-princomp(standardized_my_data,scores=TRUE,cor=TRUE)
 plot(pca_result2)
 
-
+################Top ten
+Pmatrix=pca_result$loadings[,1:10]
+Tmatrix=pca_result$scores[,1:10]
 ############## calculate T squared
-
-
+pret=Pmatrix%*%t(Pmatrix)%*%t(my_data_testing)
+g<-pret*pret
+kit<-apply(g,2,sum)
+final<-sqrt(kit)
 ############# calculate Q statistics
