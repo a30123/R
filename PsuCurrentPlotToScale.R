@@ -28,10 +28,13 @@ require(gdata)
 setpoint_folder_path="E:./././././././././MovedFromD/CSV/TS1/VoltageCurrent_2492runs/setpoint/"
 current_folder_path="E:./././././././MovedFromD/CSV/TS1/VoltageCurrent_2492runs/current/"
 deviation_folder_path="E:./././././MovedFromD/CSV/TS1/VoltageCurrent_2492runs/deviation/"
-output_folder_path="C:/Users/A30123.ITRI/Documents/R scripts/Heater/Try_20150813_plot_current/"
+output_folder_path="C:/Users/A30123.ITRI/Documents/R scripts/Heater/Try_20150814_plot_current_voltage/output/"
 sensor_variable="Psu1Current"
+sensor_variable2="Psu1Voltage"
 upper_plot_limit=200
 lower_plot_limit=-1
+upper_plot_limit2=100
+lower_plot_limit2=-1
 plotlength<-75000  
 physmax<-500
 #########################################################################################################
@@ -84,10 +87,10 @@ while(i<no_of_runs){
     single_setpoint_file_path<-paste(setpoint_folder_path,gsub("current","setpoint",filenames[i]),sep="")
     single_deviation_file_path<-paste(deviation_folder_path,gsub("current","deviation",filenames[i]),sep="")
     
-    templist<-unlist(read.csv(single_current_file_path)[sensor_variable])
+    templist<-unlist(read.csv(single_current_file_path)[sensor_variable2])#Psu1Voltage current file
     longlist<-c(longlist,(templist))
     
-    templist2<-unlist(read.csv(single_setpoint_file_path)[sensor_variable])
+    templist2<-unlist(read.csv(single_current_file_path)[sensor_variable])#Psu1Current current file
     longlist2<-c(longlist2,(templist2))
     
     longlist3<-c(longlist3,abs(templist-templist2))
@@ -166,7 +169,7 @@ while(i<no_of_runs){
   
   #first part of plot (current,setpoint values, buffer, bake, HCl-bake runs)
   par(mar=c(5,5,5,5))
-  plot(longlist2[1:plotlength],cex.lab=2,xlab="runs",ylab="sccm",type="l",lwd=5,col="red",ylim=c(lower_plot_limit,upper_plot_limit))
+  plot(longlist2[1:plotlength],cex.lab=2,xlab="runs",ylab="sccm",type="l",lwd=1,col="red",ylim=c(lower_plot_limit,upper_plot_limit))
   title(main="Comparison of error and error reconstructed from deviation")
   
   if(length(Bakelistleft)>0){
@@ -181,17 +184,17 @@ while(i<no_of_runs){
     rect(Bufferlistleft,rep(lower_plot_limit,length(Bufferlistleft)),Bufferlistright,rep(upper_plot_limit,length(Bufferlistleft)),col="skyblue",border=NA)
   }
   
-  lines(longlist2[1:plotlength],type="l",lwd=6,col="red")#setpoint
-  points(longlist[1:plotlength],pch=20,col="forestgreen")#current
+  lines(longlist2[1:plotlength],type="l",lwd=1,col="red")#setpoint
+#  points(longlist[1:plotlength],pch=20,col="forestgreen")#current
   abline(v=groundtruth2[groundtruth2<=plotlength],col="gray60")#run breakpoints
   
   
   #second part of plot
   par(new=T)
-  plot(longlist3[1:plotlength],axes=FALSE,xlab="",ylab="",type="l",lwd=3,col="blue",ylim=c(0,100))#error
-  lines(longlist4[1:plotlength],type="l",lwd=2,col="brown1")# scaled deviation
-  axis(side=4)
-  mtext(side=4,line=3,"Error scale (sccm)",cex=2)
+  plot(longlist[1:plotlength],axes=FALSE,xlab="",ylab="",type="l",lwd=3,col="blue",ylim=c(lower_plot_limit2,upper_plot_limit2))#error
+#  lines(longlist4[1:plotlength],type="l",lwd=2,col="brown1")# scaled deviation
+#  axis(side=4)
+#  mtext(side=4,line=3,"Error scale (sccm)",cex=2)
   legend('top', c('current value (left axis)','setpoint value (left axis)','error (right axis)','deviation*physmax/100 (right axis)'),lty=1, col=c('forestgreen','red','blue','brown1'),bty='n',lwd=2,cex=2)
   
   dev.off()
