@@ -169,7 +169,7 @@ while(i<no_of_runs){
   
   #first part of plot (current,setpoint values, buffer, bake, HCl-bake runs)
   par(mar=c(5,5,5,5))
-  plot(longlist2[1:plotlength],cex.lab=2,xlab="runs",ylab="volts",type="l",lwd=1,col="gold2",ylim=c(lower_plot_limit,upper_plot_limit))
+  plot(longlist2[1:plotlength],cex.lab=2,xlab="runs",ylab="ampere",type="l",lwd=1,col="gold2",ylim=c(lower_plot_limit,upper_plot_limit))
   title(main="Comparison of error and error reconstructed from deviation")
   
   if(length(Bakelistleft)>0){
@@ -191,10 +191,10 @@ while(i<no_of_runs){
   
   #second part of plot
   par(new=T)
-  plot(longlist[1:plotlength],axes=FALSE,xlab="",ylab="",type="l",lwd=3,col="darkseagreen3",ylim=c(lower_plot_limit2,upper_plot_limit2))#Psu1Voltage current file
+  plot(longlist[1:plotlength],axes=FALSE,xlab="",ylab="",type="l",lwd=1,col="darkseagreen3",ylim=c(lower_plot_limit2,upper_plot_limit2))#Psu1Voltage current file
 #  lines(longlist4[1:plotlength],type="l",lwd=2,col="brown1")# scaled deviation
   axis(side=4)
-  mtext(side=4,line=3,"ampere",cex=2)
+  mtext(side=4,line=3,"volts",cex=2)
   legend('top', c('PSu1Current(ampere)','PSu1Voltage(volts)'),lty=1, col=c("gold2","darkseagreen3"),bty='n',lwd=2,cex=2)
   
   dev.off()
