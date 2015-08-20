@@ -27,7 +27,7 @@ library(lubridate)
 #########################################################################################################
 file_path_name="C:/Users/A30123.ITRI/Documents/Safebox/2015 PHM Challenge/data/PHMtrain/plant_1a.csv"
 file_path_name2="C:/Users/A30123.ITRI/Documents/Safebox/2015 PHM Challenge/data/PHMtrain/plant_1c.csv"
-output_folder_path="C:/Users/A30123.ITRI/Documents/R scripts/PHM Challenge 2015/Try_20150819_ggplot_stackplots_failure/output/plant1/"
+output_folder_path="C:/Users/A30123.ITRI/Documents/R scripts/PHM Challenge 2015/Try_20150820_ggplot_stackplots_all_failures/output/plant1/"
 #########################################################################################################
 ########################################   MAIN PROGRAM        ##########################################
 #########################################################################################################
@@ -42,11 +42,8 @@ data2<-read.csv(file_path_name2,header=F)
 #all_intervals_fault1=vector()
 
 data_fault1<-data2[data2[,3]==1,]
-# all_intervals_fault1=
-# for (kk in 1:length(data_fault1[,1])){
-#   intervals_fault1<-new_interval(data_fault1[kk,1],data_fault1[kk,2])
-#   all_intervals_fault1=c(all_intervals_fault1,intervals_fault1)                          
-# }
+data_fault2<-data2[data2[,3]==2,]
+
 
 names(data)=c("component","time","sensor_1","sensor_2","sensor_3","sensor_4", "control_1","control_2", "control_3", "control_4")
 data$time<-strptime(data$time,format="%Y-%m-%d %H:%M:%S")
@@ -68,14 +65,30 @@ for (i in 1:plot_number){
       a[kk]<-1
      }
   }
+  
+  b<-rep(0,length(data_fault2[,1]))
+  for (kk in 1:length(data_fault2[,1])){
+    if(int_overlaps(plot_time_interval,new_interval(data_fault2[kk,1],data_fault2[kk,2]))){
+      b[kk]<-1
+    }
+  }
+  
+  
+  
   new_fault1<-as.data.frame(data_fault1[a==1,])
   new_fault1$V1=as.POSIXct(new_fault1$V1)
   new_fault1$V2=as.POSIXct(new_fault1$V2)
   if(sum(a)>0){
     p1<-(p1+geom_rect(data=new_fault1,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="pink",alpha = 0.4))
   }
-  
-  p2<-ggplot(data=data[begin_index:end_index,],aes(x=time,y=sensor_2,group=component,col=factor(component)))+geom_line()+theme(legend.position="none")
+  p2<-ggplot(temp_data)+geom_line(aes(x=time,y=sensor_2,group=component,col=factor(component)))+theme(legend.position="none")  
+  #p2<-ggplot(data=data[begin_index:end_index,],aes(x=time,y=sensor_2,group=component,col=factor(component)))+geom_line()+theme(legend.position="none")
+  new_fault2<-as.data.frame(data_fault2[b==1,])
+  new_fault2$V1=as.POSIXct(new_fault2$V1)
+  new_fault2$V2=as.POSIXct(new_fault2$V2)
+  if(sum(b)>0){
+    p2<-(p2+geom_rect(data=new_fault2,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="green",alpha = 0.4))
+  }
   p3<-ggplot(data=data[begin_index:end_index,],aes(x=time,y=sensor_3,group=component,col=factor(component)))+geom_line()+theme(legend.position="none")
   p4<-ggplot(data=data[begin_index:end_index,],aes(x=time,y=sensor_4,group=component,col=factor(component)))+geom_line()+theme(legend.position="bottom")
 
