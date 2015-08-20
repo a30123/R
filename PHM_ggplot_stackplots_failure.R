@@ -91,23 +91,23 @@ for (i in 1:plot_number){
     }
   }
 
-  e<-rep(0,length(data_fault5[,1]))
+  ee<-rep(0,length(data_fault5[,1]))
   for (kk in 1:length(data_fault5[,1])){
     if(int_overlaps(plot_time_interval,new_interval(data_fault5[kk,1],data_fault5[kk,2]))){
-      e[kk]<-1
+      ee[kk]<-1
     }
   }
   
-  f<-rep(0,length(data_fault6[,1]))
+  ff<-rep(0,length(data_fault6[,1]))
   for (kk in 1:length(data_fault6[,1])){
     if(int_overlaps(plot_time_interval,new_interval(data_fault6[kk,1],data_fault6[kk,2]))){
-      f[kk]<-1
+      ff[kk]<-1
     }
   }
   p1<-ggplot(temp_data)+geom_line(aes(x=time,y=sensor_1,group=component,col=factor(component)))+theme(legend.position="none")
   
   if(sum(a)>0){
-    new_fault1<-as.data.frame(data_fault1[a==1,])
+    new_fault1<-as.data.frame(data_fault1[(a==1),])
     p1<-(p1+geom_rect(data=new_fault1,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="pink",alpha = 0.4))
   }
   
@@ -115,13 +115,13 @@ for (i in 1:plot_number){
   
 
   if(sum(b)>0){
-    new_fault2<-as.data.frame(data_fault2[b==1,])
+    new_fault2<-as.data.frame(data_fault2[(b==1),])
     p2<-(p2+geom_rect(data=new_fault2,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="forestgreen",alpha = 0.4))
   }
   
 
   if(sum(c)>0){
-    new_fault3<-as.data.frame(data_fault3[c==1,])
+    new_fault3<-as.data.frame(data_fault3[(c==1),])
     p2<-(p2+geom_rect(data=new_fault3,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="blue",alpha = 0.4))
   }
   p3<-ggplot(temp_data)+geom_line(aes(x=time,y=sensor_3,group=component,col=factor(component)))+theme(legend.position="none")  
@@ -130,19 +130,28 @@ for (i in 1:plot_number){
   
   
   if(sum(d)>0){
-    new_fault4<-as.data.frame(data_fault4[d==1,])
+    new_fault4<-as.data.frame(data_fault4[(d==1),])
     p3<-(p3+geom_rect(data=new_fault4,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="gold",alpha = 0.4))
   }
   
   
-  if(sum(e)>0){
-    new_fault5<-as.data.frame(data_fault5[e==1,])
+  if(sum(ee)>0){
+    new_fault5<-as.data.frame(data_fault5[(ee==1),])
     p3<-(p3+geom_rect(data=new_fault5,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="darkseagreen3",alpha = 0.4))
   }
   
   p4<-ggplot(temp_data)+geom_line(aes(x=time,y=sensor_4,group=component,col=factor(component)))+theme(legend.position="bottom")
 
 #  p4<-ggplot(data=data[begin_index:end_index,],aes(x=time,y=sensor_4,group=component,col=factor(component)))+geom_line()+theme(legend.position="bottom")
+
+
+  if(sum(ff)>0){
+    new_fault6<-as.data.frame(data_fault6[(ff==1),])
+    new_fault6$V1<-max(data[begin_index,2],new_fault6$V1)
+    new_fault6$V2<-min(data[end_index,2],new_fault6$V2)
+    p4<-(p4+geom_rect(data=new_fault6,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="darkorange",alpha = 0.1))
+  }
+
 
   dirname1<-output_folder_path
   dirname2<-"plant1"
