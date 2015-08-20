@@ -40,23 +40,27 @@ data2<-read.csv(file_path_name2,header=F)
 
 #data_split<-split(data2,floor((1:length(data2[,1])/1000)))
 #all_intervals_fault1=vector()
+data2$V1=as.POSIXct(data2$V1)
+data2$V2=as.POSIXct(data2$V2)
 
 data_fault1<-data2[data2[,3]==1,]
 data_fault2<-data2[data2[,3]==2,]
-
+data_fault3<-data2[data2[,3]==3,]
+data_fault4<-data2[data2[,3]==4,]
+data_fault5<-data2[data2[,3]==5,]
+data_fault6<-data2[data2[,3]==6,]
 
 names(data)=c("component","time","sensor_1","sensor_2","sensor_3","sensor_4", "control_1","control_2", "control_3", "control_4")
 data$time<-strptime(data$time,format="%Y-%m-%d %H:%M:%S")
 data_length<-length(data[,1])
 plot_number<-floor(data_length/1000)
 
-for (i in 1:plot_number){
+for (i in 36:plot_number){
   begin_index<-(1+1000*(i-1))
   end_index<-(1000*i)
   plot_time_interval<-new_interval(data[begin_index,2],data[end_index,2])
   temp_data=as.data.frame(data[begin_index:end_index,])
-  p1<-ggplot(temp_data)+geom_line(aes(x=time,y=sensor_1,group=component,col=factor(component)))+theme(legend.position="none")
-  
+ 
   
   
   a<-rep(0,length(data_fault1[,1]))
@@ -73,23 +77,63 @@ for (i in 1:plot_number){
     }
   }
   
+  c<-rep(0,length(data_fault3[,1]))
+  for (kk in 1:length(data_fault3[,1])){
+    if(int_overlaps(plot_time_interval,new_interval(data_fault3[kk,1],data_fault3[kk,2]))){
+      c[kk]<-1
+    }
+  }
   
+  d<-rep(0,length(data_fault4[,1]))
+  for (kk in 1:length(data_fault4[,1])){
+    if(int_overlaps(plot_time_interval,new_interval(data_fault4[kk,1],data_fault4[kk,2]))){
+      d[kk]<-1
+    }
+  }
   
+  e<-rep(0,length(data_fault5[,1]))
+  for (kk in 1:length(data_fault5[,1])){
+    if(int_overlaps(plot_time_interval,new_interval(data_fault5[kk,1],data_fault5[kk,2]))){
+      e[kk]<-1
+    }
+  }
+  
+  f<-rep(0,length(data_fault6[,1]))
+  for (kk in 1:length(data_fault6[,1])){
+    if(int_overlaps(plot_time_interval,new_interval(data_fault6[kk,1],data_fault6[kk,2]))){
+      f[kk]<-1
+    }
+  }
+  p1<-ggplot(temp_data)+geom_line(aes(x=time,y=sensor_1,group=component,col=factor(component)))+theme(legend.position="none")
   new_fault1<-as.data.frame(data_fault1[a==1,])
-  new_fault1$V1=as.POSIXct(new_fault1$V1)
-  new_fault1$V2=as.POSIXct(new_fault1$V2)
+
   if(sum(a)>0){
     p1<-(p1+geom_rect(data=new_fault1,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="pink",alpha = 0.4))
   }
   p2<-ggplot(temp_data)+geom_line(aes(x=time,y=sensor_2,group=component,col=factor(component)))+theme(legend.position="none")  
-  #p2<-ggplot(data=data[begin_index:end_index,],aes(x=time,y=sensor_2,group=component,col=factor(component)))+geom_line()+theme(legend.position="none")
   new_fault2<-as.data.frame(data_fault2[b==1,])
-  new_fault2$V1=as.POSIXct(new_fault2$V1)
-  new_fault2$V2=as.POSIXct(new_fault2$V2)
+
   if(sum(b)>0){
-    p2<-(p2+geom_rect(data=new_fault2,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="green",alpha = 0.4))
+    p2<-(p2+geom_rect(data=new_fault2,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="forestgreen",alpha = 0.4))
+  }
+  new_fault3<-as.data.frame(data_fault3[c==1,])
+
+  if(sum(c)>0){
+    p2<-(p2+geom_rect(data=new_fault3,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="blue",alpha = 0.4))
   }
   p3<-ggplot(data=data[begin_index:end_index,],aes(x=time,y=sensor_3,group=component,col=factor(component)))+geom_line()+theme(legend.position="none")
+  new_fault4<-as.data.frame(data_fault4[d==1,])
+  
+  if(sum(d)>0){
+    p3<-(p3+geom_rect(data=new_fault4,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="gold",alpha = 0.4))
+  }
+  new_fault5<-as.data.frame(data_fault5[e==1,])
+  
+  if(sum(e)>0){
+    p4<-(p4+geom_rect(data=new_fault5,aes(xmin =V1, xmax=V2,ymin = -Inf, ymax = Inf),fill="darkseagreen3",alpha = 0.4))
+  }
+  
+  
   p4<-ggplot(data=data[begin_index:end_index,],aes(x=time,y=sensor_4,group=component,col=factor(component)))+geom_line()+theme(legend.position="bottom")
 
   dirname1<-output_folder_path
