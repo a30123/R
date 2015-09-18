@@ -49,7 +49,8 @@ PC_on_X_prime_prime$loadings
 
 ###################population standard deviation
 length=dim(X)[1]
-X_prime_prime2=scale(X, center = TRUE, scale = sqrt((length-1)/length)*apply(X, 2, sd, na.rm = TRUE))
+X_population_std=sqrt((length-1)/length)*apply(X, 2, sd, na.rm = TRUE)
+X_prime_prime2=scale(X, center = TRUE, scale =X_population_std )
 X_prime_prime2
 
 PC_on_X_prime_prime2=princomp(X_prime_prime2)
@@ -58,5 +59,6 @@ PC_on_X_prime_prime2$loadings
 
 
 ################test
-x=array(c(173,54),dim=c(2,1))
-PC_on_X_prime_prime2$loadings%*%x
+x_test=array(c(173,54),dim=c(1,2))
+x_test_prime2=scale(x_test,center=colMeans(X),scale=X_population_std)
+tranform_x_test_prime2=x_test_prime2%*%PC_on_X_prime_prime2$loadings
