@@ -1,12 +1,26 @@
+##################
+#DATA#############
+##################
 X=array(c(173,155,175,171,166,167,163,155,159,168,166,169,159,154,160,66,49,72,68,63,64,61,52,55,65,61,73,57,49,60),dim=c(15,2))
 X
 X_prime=scale(X,scale=FALSE)
 X_prime
+
+##################
+#eigenvalue method
+##################
+
+#covariance matrix
 B=t(X_prime)%*%X_prime
 B
+#diagonalization
 EIG=eigen(B)
 EIG
+
+#loadings
 EIG$vectors
+
+#scores
 Y=X_prime%*%EIG$vectors
 Y
 
