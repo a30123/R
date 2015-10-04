@@ -225,3 +225,13 @@ PC5_on_X_prime_prime2=acp(X_prime_prime2,reduce=F)
 PC5_on_X_prime_prime2$loadings
 PC5_on_X_prime_prime2$scores
 
+
+#############################################
+X_prime_svd=svd(X_prime)
+X_prime_svd
+D=matrix(0,2,2)
+diag(D)=X_prime_svd$d
+#loadings
+X_prime_svd$v
+#scores
+X_prime_svd$u%*%D
