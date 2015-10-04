@@ -133,7 +133,7 @@ tranform_PC2_x_test_prime2
 #R ADE4 package##############################
 #dudi.pca method#############################
 #############################################
-install.packages("ade4")
+#install.packages("ade4")
 library(ade4)
 PC3_on_X=dudi.pca(X,scale=F,scannf=F)
 PC3_on_X
@@ -167,7 +167,7 @@ PC3_on_X_prime_prime2$li
 #PCA method##################################
 #normalized by sample standard deviation#####
 #############################################
-install.packages("FactoMineR")
+#install.packages("FactoMineR")
 library(FactoMineR)
 PC4_on_X=PCA(X,scale=F,graph=F)
 PC4_on_X
@@ -198,7 +198,7 @@ PC4_on_X_prime_prime2$ind$coord
 #acp method##################################
 #normalized by sample standard deviation#####
 #############################################
-install.packages("amap")
+#install.packages("amap")
 library(amap)
 PC5_on_X=acp(X,reduce=F)
 PC5_on_X
@@ -219,6 +219,9 @@ PC5_on_X_prime_prime$scores
 #acp method##################################
 #normalized by population standard deviation#
 #############################################
+
+
 PC5_on_X_prime_prime2=acp(X_prime_prime2,reduce=F)
 PC5_on_X_prime_prime2$loadings
 PC5_on_X_prime_prime2$scores
+
