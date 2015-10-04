@@ -235,3 +235,11 @@ diag(D)=X_prime_svd$d
 X_prime_svd$v
 #scores
 X_prime_svd$u%*%D
+
+
+#############################################
+#R phsyc package#############################
+#principal method############################
+#############################################
+#install.packages("phsyc")
+#library(phsyc)
