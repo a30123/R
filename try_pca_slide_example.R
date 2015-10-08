@@ -96,7 +96,9 @@ PC_on_X_prime_prime2$scores
 tranform_x_test_prime2=x_test_prime2%*%PC_on_X_prime_prime2$loadings
 tranform_x_test_prime2
 
-
+PC_on_X_prime_prime2_2=princomp(X,cor=T)
+PC_on_X_prime_prime2_2$loadings
+PC_on_X_prime_prime2_2$scores
 
 #############################################
 #prcomp method###############################
